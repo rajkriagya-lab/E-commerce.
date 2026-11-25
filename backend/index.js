@@ -1,11 +1,12 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import http from "http";
 import cookieParser from "cookie-parser";
+
 import authRoutes from "./routes/auth.Routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 dotenv.config();
 
@@ -31,7 +32,9 @@ app.use(express.urlencoded({extended: true, limit :"1mb"}));
 
 app.use(cookieParser());
 
+// API ENDPOINT
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes)
 
 // HEALTH CHECK
 app.get("/", (req,res) => {

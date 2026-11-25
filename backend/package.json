@@ -4,9 +4,9 @@
   "description": "E-commerce Backend",
   "main": "index.js",
   "scripts": {
-    "postinstall": "prisma generate --schema Prisma/schema.prisma",
+    "postinstall": "npx prisma generate",
     "dev": "nodemon index.js",
-    "start": "prisma generate --schema Prisma/schema.prisma && node index.js"
+    "start": "prisma generate && node index.js"
   },
   "keywords": [],
   "author": "",
