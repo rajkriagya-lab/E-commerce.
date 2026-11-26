@@ -6,9 +6,12 @@ import http from "http";
 import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.Routes.js";
+import productRoutes from "./routes/product.Routes.js";
 import userRoutes from "./routes/user.routes.js";
+import connectCloudinary from "./config/cloudinary.js";
 
 dotenv.config();
+connectCloudinary();
 
 // APP
 
@@ -34,6 +37,7 @@ app.use(cookieParser());
 
 // API ENDPOINT
 app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes)
 
 // HEALTH CHECK

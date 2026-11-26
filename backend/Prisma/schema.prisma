@@ -13,6 +13,12 @@ enum ROLE {
     CUSTOMER
 }
 
+enum PRODUCT_STATUS {
+    PENDING
+    APPROVED
+    REJECTED
+}
+
 model User {
     id        String   @id @default(cuid())
     name      String
@@ -23,4 +29,56 @@ model User {
     role      ROLE     @default(CUSTOMER)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    seller    Seller?
+}
+
+model Category {
+    id       String    @id @default(cuid())
+    name     String
+    slug     String    @unique
+    products Product[]
+}
+
+model Seller {
+    id        String    @id @default(cuid())
+    userId    String    @unique
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    storeName String
+    storeSlug String    @unique
+    products  Product[]
+}
+
+model Product {
+    id          String           @id @default(cuid())
+    name        String
+    description String?
+    brand       String?
+    price       Decimal
+    status      PRODUCT_STATUS   @default(PENDING)
+    isActive    Boolean          @default(true)
+    categoryId  String
+    category    Category         @relation(fields: [categoryId], references: [id])
+    sellerId    String
+    seller      Seller           @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+    image       ProductImage[]
+    variants    ProductVariant[]
+    createdAt   DateTime         @default(now())
+    updatedAt   DateTime         @updatedAt
+}
+
+model ProductImage {
+    id        String  @id @default(cuid())
+    url       String
+    position  Int     @default(0)
+    productId String
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductVariant {
+    id        String  @id @default(cuid())
+    name      String
+    value     String
+    price     Decimal?
+    productId String
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
